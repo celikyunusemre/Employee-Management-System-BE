@@ -1,0 +1,415 @@
+{
+	"info": {
+		"_postman_id": "c61e64d4-5841-4f4a-8bb0-d19857756b55",
+		"name": "EMS System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27990996"
+	},
+	"item": [
+		{
+			"name": "Get Employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test('Response body is an array with at least one element', function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3",
+							"description": "(Required) int"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employees Pagination",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test('Response is an array with at least one element', function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee?page=0&size=3&sortby=identityNo",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"description": "(Required) int"
+						},
+						{
+							"key": "size",
+							"value": "3",
+							"description": "(Optional) 50 by default"
+						},
+						{
+							"key": "sortby",
+							"value": "identityNo",
+							"description": "(Optional) id by default"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Positions List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is an array with at least one element\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Each element in the response array is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    ",
+							"    responseData.forEach(function (element) {",
+							"        pm.expect(element).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Response array does not contain any duplicate elements\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1, \"Array should not be empty\");",
+							"",
+							"    const uniqueElements = new Set(responseData);",
+							"    pm.expect(uniqueElements.size).to.equal(responseData.length, \"Array should not contain duplicate elements\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee/positions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						"positions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Departments List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response array is not empty\", function () {",
+							"  const responseData = pm.response.json();",
+							"",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  pm.expect(responseData).to.have.lengthOf.at.least(1, \"Array should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Each element in the response array is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    responseData.forEach(function(element) {",
+							"        pm.expect(element).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Response array does not contain any duplicate elements\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1, \"Array should not be empty\");",
+							"",
+							"    const uniqueElements = new Set(responseData);",
+							"    pm.expect(uniqueElements.size).to.equal(responseData.length, \"Array should not contain duplicate elements\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee/departments",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						"departments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/employee/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2",
+							"description": "(Required) int"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Yunus Emre\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/employee/:id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1",
+							"description": "(Required) int"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.response.to.have.status(201);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Yunus Emre\",\n    \"lastName\": \"Celik\",\n    \"phoneNumber\": \"555-8712\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"identityNo\": \"5555555555\",\n    \"email\": \"yunusemrecelikk21@gmail.com\",\n    \"startDate\": \"2020-01-01\",\n    \"position\": \"Developer\",\n    \"department\": \"IT\",\n    \"currentLeave\": \"10\",\n    \"leaveLeft\": \"20\",\n    \"salary\": \"5000\",\n    \"isActive\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/employee",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 500ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(500);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:8080/api",
+			"type": "string"
+		}
+	]
+}
